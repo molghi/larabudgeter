@@ -1,6 +1,6 @@
-# Retro Personal Budget Planner
+# Retro Budget Planner
 
-A retro-styled budget planner built with **Laravel** and **Tailwind CSS**.
+A retro-styled personal budget planner built with **Laravel** and **Tailwind CSS**.
 
 ---
 

@@ -19,7 +19,7 @@
         <!-- INCLUDE HEADER -->
         @include('partials.header')
 
-        <!-- RECEIVE SECTION: CONTENT -->
+        <!-- RECEIVE SECTION: MAIN CONTENT -->
         @yield('content')
     </main>
 
