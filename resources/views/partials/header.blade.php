@@ -4,7 +4,7 @@
 
 
 <header class="p-4 bg-[#111] text-[var(--accent)]">
-    <div class="max-w-6xl mx-auto w-full flex flex-col sm:flex-row gap-x-8 gap-y-3 justify-between items-center">
+    <div class="max-w-5xl mx-auto w-full flex flex-col sm:flex-row gap-x-8 gap-y-3 justify-between items-center">
 
   <div class="text-2xl font-bold">Personal Budget</div>
 

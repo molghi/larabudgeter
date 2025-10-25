@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\EntryController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -24,7 +25,14 @@ Route::post('/users/signup', [UserController::class, 'signup'])->name('user.sign
 Route::post('/users/login', [UserController::class, 'login'])->name('user.login');
 
 // User action: log out
-Route::get('/users/logout', [UserController::class, 'logout'])->name('user.logout');
+Route::get('/users/logout', [UserController::class, 'logout'])->name('user.logout')->middleware('auth');
 
 // Show user dashboard
-Route::get('/dashboard', [UserController::class, 'show_dashboard']);
+Route::get('/dashboard', [UserController::class, 'show_dashboard'])->middleware('auth');
+
+
+// Create entry
+Route::post('/entries', [EntryController::class, 'store'])->name('entry.create')->middleware('auth');
+
+// Delete entry
+Route::delete('/entries/{id}', [EntryController::class, 'destroy'])->name('entry.delete')->middleware('auth');
