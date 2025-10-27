@@ -9,10 +9,11 @@
           <th class="py-2 px-3 text-green-500 text-left">Amount</th>
           <th class="py-2 px-3 text-green-500 text-left">Category</th>
           <th class="py-2 px-3 text-green-500 text-left">Date</th>
-          <th class="py-2 px-3 text-green-500 text-left">Notes</th>
+          <th class="py-2 px-3 text-green-500 text-left">Note</th>
           <th class="py-2 px-3 text-green-500 text-left">Actions</th>
         </tr>
       </thead>
+
       <tbody class="divide-y divide-[var(--accent)]">
         @if (count($entries) > 0)
             @foreach($entries as $entry)
@@ -21,10 +22,11 @@
                     <td class="entry__category py-2 px-3">{{$entry->category}}</td>
                     <td class="entry__date py-2 px-3">{{substr($entry->date, 0, 10)}}</td>
                     <td style="width: 200px;" class="py-2 px-3">
-                        <span class="entry__note text-sm">{{$entry->note}}</span>
+                        <span class="entry__note text-[12px] leading-none">{{$entry->note}}</span>
                     </td>
                     <td class="align-middle">
-                        <button class="opacity-50 hover:opacity-100 transition border border-[var(--accent2)] px-1 rounded text-sm btn-edit">Edit</button>
+                        {{-- ACTION BUTTONS --}}
+                        <a href="/dashboard/edit/{{$entry->id}}" class="inline-block opacity-50 hover:opacity-100 transition border border-[var(--accent2)] px-1 rounded text-sm btn-edit">Edit</a>
                         <form class="inline-block" action="{{ route('entry.delete', $entry->id) }}" METHOD="POST">
                             @csrf
                             @method("DELETE")
@@ -39,6 +41,7 @@
             </tr>
         @endif
       </tbody>
+
     </table>
 
   </div>

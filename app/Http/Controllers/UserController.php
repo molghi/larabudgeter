@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Entry;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -134,7 +135,9 @@ class UserController extends Controller
 
     public function show_dashboard () {
         $data = [
-            'title' => 'Dashboard | Your Budgeter'
+            'title' => 'Dashboard | Your Budgeter',
+            // 'period'
+            // 'entries' => Entry::read()
         ];
         return view('dashboard', $data);
     }
@@ -164,6 +167,15 @@ class UserController extends Controller
         request()->session()->invalidate();
         request()->session()->regenerateToken();
         return redirect('/')->with('success', 'Logged out!');
+    }
+
+    // =========================================================
+
+    public function show_planner () {
+        $data = [
+            'title' => 'Expense Planner | Your Budgeter'
+        ];
+        return view('planner', $data);
     }
 
 }

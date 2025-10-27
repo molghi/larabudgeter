@@ -1,5 +1,9 @@
 @php
     $user_id = Auth::id();
+
+    $shown_page = url()->current();
+    $page_dashboard = str_contains($shown_page, '/dashboard');
+    $page_planner = str_contains($shown_page, '/planner');
 @endphp
 
 
@@ -10,7 +14,12 @@
 
   <div class="flex gap-4">
     @if ($user_id && !empty($user_id))
-        <button class="px-4 py-2 border border-[purple] bg-[purple] rounded whitespace-nowrap transition hover:bg-[var(--accent)] hover:border-[var(--accent)] text-black">Expense Planner</button>
+        @if ($page_dashboard)
+            <a href="/planner" class="px-4 py-2 border border-[purple] bg-[purple] rounded whitespace-nowrap transition hover:bg-[var(--accent)] hover:border-[var(--accent)] text-black">Expense Planner</a>
+        @endif
+        @if ($page_planner)
+            <a href="/dashboard" class="px-4 py-2 border border-[purple] bg-[purple] rounded whitespace-nowrap transition hover:bg-[var(--accent)] hover:border-[var(--accent)] text-black">Dashboard</a>
+        @endif
         <button class="logout px-4 py-2 border border-white text-white opacity-50 rounded whitespace-nowrap transition hover:opacity-100">Log Out</button>
     @else 
         <span class="italic">Your Easy Expense & Savings Tracker!</span>

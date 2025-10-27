@@ -36,3 +36,15 @@ Route::post('/entries', [EntryController::class, 'store'])->name('entry.create')
 
 // Delete entry
 Route::delete('/entries/{id}', [EntryController::class, 'destroy'])->name('entry.delete')->middleware('auth');
+
+// Edit entry (show form to edit)
+Route::get('/dashboard/edit/{id}', [EntryController::class, 'edit'])->name('entry.edit')->middleware('auth');
+
+// Edit entry (save edited)
+Route::put('/entries/{id}', [EntryController::class, 'update'])->name('entry.update')->middleware('auth');
+
+// Change observed period in dashboard
+Route::get('/dashboard/period/{id}', [EntryController::class, 'show_period'])->middleware('auth');
+
+
+Route::get('/planner', [UserController::class, 'show_planner'])->middleware('auth');

@@ -22,6 +22,8 @@ class EntryController extends Controller
         return view('dashboard', $data);
     }
 
+    // =================================================================================
+
     /**
      * Show the form for creating a new resource.
      *
@@ -31,6 +33,8 @@ class EntryController extends Controller
     {
         //
     }
+
+    // =================================================================================
 
     /**
      * Store a newly created resource in storage.
@@ -55,6 +59,8 @@ class EntryController extends Controller
         return redirect('/dashboard')->with('success', 'Entry created!');
     }
 
+    // =================================================================================
+
     /**
      * Display the specified resource.
      *
@@ -66,6 +72,8 @@ class EntryController extends Controller
         //
     }
 
+    // =================================================================================
+
     /**
      * Show the form for editing the specified resource.
      *
@@ -74,8 +82,15 @@ class EntryController extends Controller
      */
     public function edit($id)
     {
-        //
+        $data = [
+            'entry' => Entry::find($id),
+            'flag' => 'edit',
+            'title' => 'Dashboard Edit | Your Budgeter'
+        ];
+        return view('dashboard', $data);
     }
+
+    // =================================================================================
 
     /**
      * Update the specified resource in storage.
@@ -86,8 +101,22 @@ class EntryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        date_default_timezone_set('Etc/GMT-4');
+
+        $data = $request->validate([
+            'amount' => 'required|numeric',
+            'category' => 'required|string',
+            'date' => 'required|date',
+            'note' => 'nullable|string|max:255',
+        ]);
+        // $data['user_id'] = Auth::id();
+
+        Entry::where('id', $id)->update($data);
+
+        return redirect('/dashboard')->with('success', 'Entry updated!');
     }
+
+    // =================================================================================
 
     /**
      * Remove the specified resource from storage.
@@ -101,29 +130,52 @@ class EntryController extends Controller
         return redirect('/dashboard')->with('success', 'Entry deleted!');
     }
 
-    public function read () {
-        return Entry::where('user_id', Auth::id())->get();
+    // =================================================================================
+
+    public function read ($shown_period) {
+        $arrayed = explode('-', $shown_period);
+        return Entry::where('user_id', Auth::id())->whereYear('date', $arrayed[0])->whereMonth('date', $arrayed[1])->get();
     }
 
+    // =================================================================================
 
-    public function total_income () {
+    public function total_income ($shown_period) {
+        $arrayed = explode('-', $shown_period);
         // return Entry::where('user_id', Auth::id())->where('category', 'income')->get();
-        return Entry::where('user_id', Auth::id())->where('category', 'income')->sum('amount');
+        return Entry::where('user_id', Auth::id())
+                    ->whereYear('date', $arrayed[0])->whereMonth('date', $arrayed[1])
+                    ->where('category', 'income')->sum('amount');
     }
 
-    public function total_expense () {
-        return Entry::where('user_id', Auth::id())->where('category', '!=', 'income')->sum('amount');
+    // =================================================================================
+
+    public function total_expense ($shown_period) {
+        $arrayed = explode('-', $shown_period);
+        return Entry::where('user_id', Auth::id())
+                    ->whereYear('date', $arrayed[0])->whereMonth('date', $arrayed[1])
+                    ->where('category', '!=', 'income')->sum('amount');
     }
 
-    public function categorize_incomes () {
+    // =================================================================================
+
+    public function categorize_incomes ($shown_period) {
+        $arrayed = explode('-', $shown_period);
         // $data = [
         //     'categories' => Entry::where('user_id', Auth::id())->distinct()->pluck('category'), // get all cats, distinct
         //     'amounts' => Entry::where('user_id', Auth::id())->select('category', DB::raw('SUM(amount) as total'))->groupBy('category')->get(), // sum each cat
         // ];
         return Entry::where('user_id', Auth::id())
+                ->whereYear('date', $arrayed[0])->whereMonth('date', $arrayed[1])
                 ->select('category', DB::raw('SUM(amount) as total'))
                 ->groupBy('category')
                 ->pluck('total', 'category')->sortDesc();;
 ;
+    }
+
+    // =================================================================================
+
+    public function show_period ($period) {
+        session(['period' => $period]);
+        return view('/dashboard');
     }
 }

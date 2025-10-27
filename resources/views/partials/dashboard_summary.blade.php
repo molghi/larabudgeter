@@ -1,11 +1,14 @@
 @php
     $periods = [];
+    $periodsShort = [];
     $year_now = date('Y');
     $month_now = date('m');
     for ($i = 0; $i < 12; $i++) {
         $entry = 'Month ' . ($i+1) . ' of ' . $year_now;
         if ($i+1 == $month_now) $entry .= ' — NOW';
         array_push($periods, $entry);
+        $month = $i+1;
+        array_push($periodsShort, "$year_now-$month");
     }
 
     $category_colors = [
@@ -36,7 +39,8 @@
         <strong class="mr-2 text-[var(--accent2)]">Select Period:</strong>
         <select class="period-select bg-black border border-[var(--accent2)] text-[var(--accent2)] rounded px-2 py-1">
             @foreach ($periods as $k => $v)
-                <option {{ $k+1 == $month_now ? 'selected' : '' }}>{{ $v }}</option>
+                {{-- <option value="{{ $periodsShort[$k] }}" {{ $k+1 == $month_now ? 'selected' : '' }}>{{ $v }}</option> --}}
+                <option value="{{ $periodsShort[$k] }}" {{ $periodsShort[$k] == $shown_period ? 'selected' : '' }}>{{ $v }}</option>
             @endforeach
         </select>
       </div>
@@ -76,4 +80,16 @@
 
 <script>
     const periodSelect = document.querySelector('.period-select');
+    periodSelect.addEventListener('change', function(e) {
+        const selectedPeriod = e.target.value;
+        location.href = `/dashboard/period/${selectedPeriod}`;
+    })
+
+    function submitPostForm(formAction) {
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = formAction;
+        document.body.appendChild(form);
+        form.submit();
+    }
 </script>
