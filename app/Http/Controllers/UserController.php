@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Entry;
+use App\Models\Planner;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -176,6 +176,18 @@ class UserController extends Controller
             'title' => 'Expense Planner | Your Budgeter'
         ];
         return view('planner', $data);
+    }
+
+    // =========================================================
+
+    public function set_balance (Request $request) {
+        $data = $request->validate([
+            'balance' => 'required|numeric'
+        ]);
+
+        User::where('id', Auth::id())->update(['balance' => $data['balance']]);
+
+        return redirect('/planner')->with('success', 'Balance updated!');
     }
 
 }

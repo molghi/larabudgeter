@@ -31,4 +31,7 @@
     <div class="max-w-5xl mx-auto mt-8 text-center text-[var(--accent3)]"><u>To add entry</u>: click on a day. &nbsp;  | &nbsp;  <u>To edit entry</u>: click it once.  &nbsp; | &nbsp;  <u>To delete entry</u>: double-click it.</div>
     @include('partials.planner_months')
     @include('partials.planner_forms')
+
+    {{-- show success msg --}}
+    @include('partials.show_msg')
 @endsection

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\EntryController;
+use App\Http\Controllers\PlannerController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -47,4 +48,23 @@ Route::put('/entries/{id}', [EntryController::class, 'update'])->name('entry.upd
 Route::get('/dashboard/period/{id}', [EntryController::class, 'show_period'])->middleware('auth');
 
 
-Route::get('/planner', [UserController::class, 'show_planner'])->middleware('auth');
+// Edit planner entry
+Route::get('/planner/edit/{id}', [PlannerController::class, 'edit'])->middleware('auth');
+
+// Store new expense in Planner
+Route::post('/planner/entries', [PlannerController::class, 'store'])->middleware('auth')->name('expense.create');
+
+// Set user balance
+Route::post('/user/balance', [UserController::class, 'set_balance'])->middleware('auth')->name('balance.set');
+
+// Update entry
+Route::put('/planner/edit/{id}', [PlannerController::class, 'update'])->name('expense.update')->middleware('auth');
+
+// Delete entry
+Route::get('/planner/delete/{id}', [PlannerController::class, 'destroy'])->middleware('auth');
+
+// Add entry
+Route::get('/planner/add', [PlannerController::class, 'create'])->middleware('auth');
+
+// Route::get('/planner', [UserController::class, 'show_planner'])->middleware('auth');
+Route::get('/planner', [PlannerController::class, 'index'])->middleware('auth');
