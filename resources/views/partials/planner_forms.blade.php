@@ -46,6 +46,9 @@
                 <input id="title" name="title" required autofocus type="text"
                     value="{{ $mode === 'edit' ? $edit_entry->title : '' }}"
                     class="w-full p-2 border border-[var(--accent)] rounded bg-black text-[var(--accent)]">
+                @error ('title')
+                    <div class="text-[red] p-2 border border-[red] my-3">{{$message}}</div>
+                @enderror
             </div>
             <div>
                 {{-- AMOUNT --}}
@@ -53,6 +56,9 @@
                 <input id="amount" name="amount" required type="number" step="0.1"
                     value="{{ $mode === 'edit' ? $edit_entry->amount : '' }}"
                     class="w-full p-2 border border-[var(--accent)] rounded bg-black text-[var(--accent)]">
+                @error ('amount')
+                    <div class="text-[red] p-2 border border-[red] my-3">{{$message}}</div>
+                @enderror
             </div>
             <div>
                 {{-- WHEN --}}
@@ -65,6 +71,9 @@
                     @endphp
                     value="{{ $val }}"
                     >
+                @error ('when')
+                    <div class="text-[red] p-2 border border-[red] my-3">{{$message}}</div>
+                @enderror
             </div>
             {{-- ACTION BTN --}}
             <button type="submit" class="w-full py-2 border border-[var(--accent)] rounded hover:bg-[var(--accent)] hover:text-black transition">{{ucwords($mode)}}</button>

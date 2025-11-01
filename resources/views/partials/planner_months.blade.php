@@ -1,9 +1,11 @@
 @php
-    $entries_dates = [];
+    $entries_dates = []; // entries months
+    $entries_full_dates = [];
     if (count($entries) > 0) {
         for ($i = 0; $i < count($entries); $i++) {
             $month = explode('-', $entries[$i]['when'])[1];
             array_push($entries_dates, '-' . $month . '-');
+            array_push($entries_full_dates, $entries[$i]['when']);
         }
     } 
 
@@ -28,6 +30,8 @@
     }
 
     $available_balance = $current_balance ? $current_balance : 0;
+
+    $entries = $entries->sortBy('when');
 @endphp
 
 <div class="months flex justify-between gap-8 max-w-5xl mx-auto my-12">
@@ -43,7 +47,11 @@
                 <div class="day pointer-events-none opacity-30 text-center p-2"></div>
             @endfor
             @for ($i = 0; $i < $final_day; $i++)
-                <div class="day text-sm text-center p-2 transition hover:opacity-100 hover:bg-[var(--accent)] hover:text-[var(--bg)] cursor-pointer {{$k === 0 && $i+1 < $date_now ? 'opacity-20' : ''}}" data-day="{{$years_to_show[$k]}}-{{$month_nums_to_show[$k]}}-{{$i+1}}">
+                @php
+                $current_date = $years_to_show[$k] . '-' . $month_nums_to_show[$k] . '-' . ($i+1);
+                @endphp
+                <div class="day text-sm text-center p-2 transition hover:opacity-100 hover:bg-[var(--accent)] hover:text-[var(--bg)] cursor-pointer {{ $k === 0 && $i+1 < $date_now ? 'opacity-20' : '' }} {{ in_array($current_date, $entries_full_dates) ? 'bg-[gold] text-[black]' : '' }}" 
+                        data-day="{{ $current_date }}">
                     {{ $i+1 }}
                 </div>
             @endfor

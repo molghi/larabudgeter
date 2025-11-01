@@ -64,7 +64,7 @@
         if (!e.target.closest('tr.table-entry')) return;
         dataWhen = e.target.closest('tr.table-entry').dataset.when;
         dataWhen = dataWhen.split('-').map(x => x.length===2 && x[0] === '0' ? x.slice(1) : x).join('-');
-        document.querySelector(`.months .day[data-day="${dataWhen}"]`).classList.add('bg-[var(--accent)]', 'text-black');
+        document.querySelector(`.months .day[data-day="${dataWhen}"]`).classList.add('bg-[var(--accent)]', 'text-black', 'opacity-50');
     })
 
     // un-hover over tr and de-highlight calendar day
@@ -72,7 +72,7 @@
         if (!e.target.closest('tr.table-entry')) return;
         dataWhen = e.target.closest('tr.table-entry').dataset.when;
         dataWhen = dataWhen.split('-').map(x => x.length===2 && x[0] === '0' ? x.slice(1) : x).join('-');
-        document.querySelector(`.months .day[data-day="${dataWhen}"]`).classList.remove('bg-[var(--accent)]', 'text-black');
+        document.querySelector(`.months .day[data-day="${dataWhen}"]`).classList.remove('bg-[var(--accent)]', 'text-black', 'opacity-50');
     })
 
 </script>

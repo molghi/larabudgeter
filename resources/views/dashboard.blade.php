@@ -18,7 +18,8 @@
     use App\Http\Controllers\EntryController;
     $entries = EntryController::read($shown_period);
 
-    $currency_sign = '₾';
+//     $currency_sign = '₾';
+    $currency_sign = '$';
 
     $total_income = EntryController::total_income($shown_period);
     $total_expense = EntryController::total_expense($shown_period);
